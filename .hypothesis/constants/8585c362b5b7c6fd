@@ -1,0 +1,4 @@
+# file: /Users/rodgersmagabo/Desktop/fastapi-test/backend/.venv/bin/pytest
+# hypothesis_version: 6.148.1
+
+['-script.pyw', '.exe', '__main__']
