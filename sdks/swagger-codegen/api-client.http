@@ -1,0 +1,508 @@
+###############################################################################
+# FastAPI HTTP Client - Swagger Codegen Compatible
+###############################################################################
+# This file can be used with:
+# - VS Code REST Client extension
+# - IntelliJ IDEA HTTP Client
+# - JetBrains IDEs (PyCharm, WebStorm, etc.)
+# - HTTPie/curl (copy-paste examples)
+#
+# Generated from OpenAPI 3.1.0 specification
+# Compatible with Swagger Codegen v3 generated SDKs
+###############################################################################
+
+### Configuration Variables
+@baseUrl = http://localhost:8000
+@contentType = application/json
+
+###############################################################################
+# USER ENDPOINTS
+###############################################################################
+
+### 1. Create a new user (POST /users/)
+# Operation ID: create_user_users_post
+# Description: Create a new user with the provided details.
+# Idempotent: If a user with the same email already exists, returns existing user (200 OK)
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "email": "john.doe@example.com",
+  "password": "SecureP@ss123",
+  "first_name": "John",
+  "last_name": "Doe"
+}
+
+### 2. Create user (minimal data)
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "email": "minimal@example.com",
+  "password": "Pass1234!"
+}
+
+### 3. Create user (idempotent test - should return existing user)
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "email": "john.doe@example.com",
+  "password": "SecureP@ss123"
+}
+
+### 4. List all users (GET /users/)
+# Operation ID: read_users_users_get
+# Query parameters: skip, limit
+GET {{baseUrl}}/users/?skip=0&limit=10
+
+### 5. List users (custom pagination)
+GET {{baseUrl}}/users/?skip=5&limit=25
+
+### 6. List users (max limit)
+GET {{baseUrl}}/users/?skip=0&limit=100
+
+### 7. Get a specific user by ID (GET /users/{user_id})
+# Operation ID: read_user_users_user_id_get
+# NOTE: Replace with actual UUID from create user response
+@userId = 00000000-0000-0000-0000-000000000000
+GET {{baseUrl}}/users/{{userId}}
+
+### 8. Update a user (PATCH /users/{user_id})
+# Operation ID: update_user_users_user_id_patch
+# All fields are optional
+PATCH {{baseUrl}}/users/{{userId}}
+Content-Type: {{contentType}}
+
+{
+  "first_name": "Jane",
+  "last_name": "Smith"
+}
+
+### 9. Update user email
+PATCH {{baseUrl}}/users/{{userId}}
+Content-Type: {{contentType}}
+
+{
+  "email": "updated@example.com"
+}
+
+### 10. Update user password
+PATCH {{baseUrl}}/users/{{userId}}
+Content-Type: {{contentType}}
+
+{
+  "password": "NewP@ssw0rd123"
+}
+
+### 11. Update user role (to ADMIN)
+PATCH {{baseUrl}}/users/{{userId}}
+Content-Type: {{contentType}}
+
+{
+  "role": "ADMIN"
+}
+
+### 12. Update user role (to USER)
+PATCH {{baseUrl}}/users/{{userId}}
+Content-Type: {{contentType}}
+
+{
+  "role": "USER"
+}
+
+### 13. Deactivate user
+PATCH {{baseUrl}}/users/{{userId}}
+Content-Type: {{contentType}}
+
+{
+  "is_active": false
+}
+
+### 14. Activate user
+PATCH {{baseUrl}}/users/{{userId}}
+Content-Type: {{contentType}}
+
+{
+  "is_active": true
+}
+
+### 15. Delete a user (DELETE /users/{user_id})
+# Operation ID: delete_user_users_user_id_delete
+# Returns: 204 No Content on success
+DELETE {{baseUrl}}/users/{{userId}}
+
+###############################################################################
+# BLOG POST ENDPOINTS
+###############################################################################
+
+### 16. Create a new blog post (POST /posts/)
+# Operation ID: create_blog_post_posts_post
+# Description: Create a new blog post.
+# Idempotent: If a post with the same slug already exists, returns that post (200 OK)
+# NOTE: Replace author_id with actual user UUID
+@authorId = 00000000-0000-0000-0000-000000000000
+POST {{baseUrl}}/posts/
+Content-Type: {{contentType}}
+
+{
+  "title": "My First Blog Post",
+  "slug": "my-first-blog-post",
+  "excerpt": "This is a short excerpt of the blog post.",
+  "content": "This is the full content of my blog post. It needs to be at least 10 characters long.",
+  "is_published": true,
+  "author_id": "{{authorId}}"
+}
+
+### 17. Create blog post (minimal data)
+POST {{baseUrl}}/posts/
+Content-Type: {{contentType}}
+
+{
+  "title": "Quick Post",
+  "slug": "quick-post",
+  "content": "This is a minimal blog post content, but it's long enough.",
+  "author_id": "{{authorId}}"
+}
+
+### 18. Create blog post (with long content)
+POST {{baseUrl}}/posts/
+Content-Type: {{contentType}}
+
+{
+  "title": "Comprehensive Guide to FastAPI",
+  "slug": "comprehensive-guide-to-fastapi",
+  "excerpt": "Learn everything about FastAPI in this comprehensive guide.",
+  "content": "FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints. It's one of the fastest Python frameworks available, on par with NodeJS and Go. This guide will walk you through everything you need to know about FastAPI.",
+  "is_published": true,
+  "author_id": "{{authorId}}"
+}
+
+### 19. Create blog post (draft, unpublished)
+POST {{baseUrl}}/posts/
+Content-Type: {{contentType}}
+
+{
+  "title": "Draft Blog Post",
+  "slug": "draft-blog-post",
+  "content": "This is a draft blog post that is not yet published.",
+  "is_published": false,
+  "author_id": "{{authorId}}"
+}
+
+### 20. Create blog post (idempotent test - should return existing post)
+POST {{baseUrl}}/posts/
+Content-Type: {{contentType}}
+
+{
+  "title": "My First Blog Post",
+  "slug": "my-first-blog-post",
+  "content": "This should return the existing post.",
+  "author_id": "{{authorId}}"
+}
+
+### 21. List all blog posts (GET /posts/)
+# Operation ID: read_blog_posts_posts_get
+# Query parameters: skip, limit
+GET {{baseUrl}}/posts/?skip=0&limit=10
+
+### 22. List blog posts (custom pagination)
+GET {{baseUrl}}/posts/?skip=5&limit=25
+
+### 23. List blog posts (max limit)
+GET {{baseUrl}}/posts/?skip=0&limit=100
+
+### 24. Get a specific blog post by ID (GET /posts/{post_id})
+# Operation ID: read_blog_post_posts_post_id_get
+# NOTE: Replace with actual UUID from create post response
+@postId = 00000000-0000-0000-0000-000000000000
+GET {{baseUrl}}/posts/{{postId}}
+
+### 25. Update a blog post (PATCH /posts/{post_id})
+# Operation ID: update_blog_post_posts_post_id_patch
+# All fields are optional
+PATCH {{baseUrl}}/posts/{{postId}}
+Content-Type: {{contentType}}
+
+{
+  "title": "Updated Blog Post Title",
+  "content": "This is the updated content of the blog post."
+}
+
+### 26. Update blog post slug
+PATCH {{baseUrl}}/posts/{{postId}}
+Content-Type: {{contentType}}
+
+{
+  "slug": "updated-blog-post-slug"
+}
+
+### 27. Update blog post excerpt
+PATCH {{baseUrl}}/posts/{{postId}}
+Content-Type: {{contentType}}
+
+{
+  "excerpt": "This is an updated excerpt for the blog post."
+}
+
+### 28. Publish a blog post
+PATCH {{baseUrl}}/posts/{{postId}}
+Content-Type: {{contentType}}
+
+{
+  "is_published": true
+}
+
+### 29. Unpublish a blog post
+PATCH {{baseUrl}}/posts/{{postId}}
+Content-Type: {{contentType}}
+
+{
+  "is_published": false
+}
+
+### 30. Update blog post author
+PATCH {{baseUrl}}/posts/{{postId}}
+Content-Type: {{contentType}}
+
+{
+  "author_id": "{{authorId}}"
+}
+
+### 31. Delete a blog post (DELETE /posts/{post_id})
+# Operation ID: delete_blog_post_posts_post_id_delete
+# Returns: 204 No Content on success
+DELETE {{baseUrl}}/posts/{{postId}}
+
+###############################################################################
+# WORKFLOW EXAMPLES - Complete User Journey
+###############################################################################
+
+### Workflow 1: Create User -> Create Post -> Update Post -> Delete Post
+
+# Step 1: Create a user
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "email": "workflow@example.com",
+  "password": "WorkflowP@ss123",
+  "first_name": "Workflow",
+  "last_name": "User"
+}
+
+###
+
+# Step 2: Get all users to find the created user's ID
+GET {{baseUrl}}/users/?skip=0&limit=100
+
+###
+
+# Step 3: Create a blog post (use user ID from step 2)
+POST {{baseUrl}}/posts/
+Content-Type: {{contentType}}
+
+{
+  "title": "Workflow Test Post",
+  "slug": "workflow-test-post",
+  "content": "This is a test post created as part of the workflow.",
+  "is_published": true,
+  "author_id": "USER_ID_FROM_STEP_2"
+}
+
+###
+
+# Step 4: Get all posts to find the created post's ID
+GET {{baseUrl}}/posts/?skip=0&limit=100
+
+###
+
+# Step 5: Update the post
+PATCH {{baseUrl}}/posts/POST_ID_FROM_STEP_4
+Content-Type: {{contentType}}
+
+{
+  "title": "Updated Workflow Test Post",
+  "content": "This content has been updated."
+}
+
+###
+
+# Step 6: Delete the post
+DELETE {{baseUrl}}/posts/POST_ID_FROM_STEP_4
+
+###
+
+# Step 7: Delete the user
+DELETE {{baseUrl}}/users/USER_ID_FROM_STEP_2
+
+###############################################################################
+# ERROR TESTING EXAMPLES
+###############################################################################
+
+### Error 1: Create user with invalid email
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "email": "invalid-email",
+  "password": "Pass1234!"
+}
+
+### Error 2: Create user with weak password (too short)
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "short"
+}
+
+### Error 3: Create user with invalid password characters
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "invalid|password"
+}
+
+### Error 4: Create blog post with invalid slug (uppercase)
+POST {{baseUrl}}/posts/
+Content-Type: {{contentType}}
+
+{
+  "title": "Test Post",
+  "slug": "Invalid-Slug",
+  "content": "This should fail due to invalid slug.",
+  "author_id": "{{authorId}}"
+}
+
+### Error 5: Create blog post with short content
+POST {{baseUrl}}/posts/
+Content-Type: {{contentType}}
+
+{
+  "title": "Test Post",
+  "slug": "test-post",
+  "content": "Short",
+  "author_id": "{{authorId}}"
+}
+
+### Error 6: Get non-existent user (404)
+GET {{baseUrl}}/users/99999999-9999-9999-9999-999999999999
+
+### Error 7: Get non-existent post (404)
+GET {{baseUrl}}/posts/99999999-9999-9999-9999-999999999999
+
+### Error 8: Update non-existent user (404)
+PATCH {{baseUrl}}/users/99999999-9999-9999-9999-999999999999
+Content-Type: {{contentType}}
+
+{
+  "first_name": "Test"
+}
+
+### Error 9: Delete non-existent user (404)
+DELETE {{baseUrl}}/users/99999999-9999-9999-9999-999999999999
+
+###############################################################################
+# PAGINATION TESTING
+###############################################################################
+
+### Pagination 1: First page of users
+GET {{baseUrl}}/users/?skip=0&limit=10
+
+### Pagination 2: Second page of users
+GET {{baseUrl}}/users/?skip=10&limit=10
+
+### Pagination 3: Third page of users
+GET {{baseUrl}}/users/?skip=20&limit=10
+
+### Pagination 4: First page of posts
+GET {{baseUrl}}/posts/?skip=0&limit=10
+
+### Pagination 5: Second page of posts
+GET {{baseUrl}}/posts/?skip=10&limit=10
+
+### Pagination 6: Single item per page
+GET {{baseUrl}}/users/?skip=0&limit=1
+
+###############################################################################
+# BULK OPERATIONS EXAMPLES
+###############################################################################
+
+### Bulk 1: Create multiple users
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "email": "user1@example.com",
+  "password": "User1Pass123!",
+  "first_name": "User",
+  "last_name": "One"
+}
+
+###
+
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "email": "user2@example.com",
+  "password": "User2Pass123!",
+  "first_name": "User",
+  "last_name": "Two"
+}
+
+###
+
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "email": "user3@example.com",
+  "password": "User3Pass123!",
+  "first_name": "User",
+  "last_name": "Three"
+}
+
+###############################################################################
+# OPENAPI SPECIFICATION
+###############################################################################
+
+### Get OpenAPI JSON schema
+GET {{baseUrl}}/openapi.json
+
+### Get API documentation (Swagger UI)
+GET {{baseUrl}}/docs
+
+### Get alternative API documentation (ReDoc)
+GET {{baseUrl}}/redoc
+
+###############################################################################
+# NOTES
+###############################################################################
+#
+# 1. Replace {{userId}} and {{postId}} with actual UUIDs from API responses
+# 2. Replace {{authorId}} with actual user UUID when creating posts
+# 3. All POST endpoints are idempotent (safe to retry)
+# 4. Password requirements: 8-128 chars, A-Z, a-z, 0-9, @$!%*?&
+# 5. Slug format: lowercase-with-hyphens (kebab-case)
+# 6. Title pattern: ASCII alphanumeric + basic punctuation
+# 7. Pagination: skip (offset) and limit (max 100)
+#
+# Error Codes:
+# - 200: Success (or resource already exists for POST)
+# - 201: Resource created
+# - 204: Success with no content (DELETE operations)
+# - 404: Resource not found
+# - 422: Validation error (check request body/parameters)
+#
+# Swagger Codegen SDK Integration:
+# This file follows the same operation IDs and models as the generated SDKs:
+# - TypeScript SDK: sdks/swagger-codegen/typescript/
+# - Python SDK: sdks/swagger-codegen/python/
+# - Swift SDK: sdks/swagger-codegen/swift/
+#
+###############################################################################
