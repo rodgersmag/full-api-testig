@@ -542,6 +542,6 @@ MIT
 **Built with**: FastAPI, Pydantic, Schemathesis, Pytest, Locust, OpenAPI Codegen
 
 **Testing**: ✅ Unit Tests | ✅ Schema Tests | ✅ Load Tests  
-**SDKs**: 🟦 TypeScript | 🐍 Python | 🍎 Swift | ☕ Java
+**SDKs**: 🟦 TypeScript | 🐍 Python | 🍎 Swift | .http
 
 *Last Updated: 2025-11-19*
